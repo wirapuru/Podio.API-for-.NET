@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Net;
 
 
 namespace Podio.API
@@ -14,6 +15,12 @@ namespace Podio.API
     /// </summary>
     public class Client
     {
+        // proxy for convenience
+        public static WebProxy Proxy
+        {
+            get { return Podio.API.Utils.PodioRestHelper.Proxy; }
+            set { Podio.API.Utils.PodioRestHelper.Proxy = value; }
+        }
 
         // This is what you want to hold on to if you
         // are to keep an open connection to Podio.

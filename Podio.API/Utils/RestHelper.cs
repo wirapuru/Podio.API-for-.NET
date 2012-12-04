@@ -23,6 +23,8 @@ namespace Podio.API.Utils
     /// </summary>
     public sealed class PodioRestHelper
     {
+        public static WebProxy Proxy;
+
         public enum RequestMethod
         {
             GET, POST, PUT, DELETE
@@ -142,7 +144,7 @@ namespace Podio.API.Utils
             }
 
             HttpWebRequest request;
-
+            
             if (requestMethod == RequestMethod.GET)
             {
                 // lets add the different arguments if they are present
@@ -151,6 +153,7 @@ namespace Podio.API.Utils
                     requestUri = requestUri + "?" + string.Join("&", requestData.Select(x => x.Key + "=" + HttpUtility.UrlEncode(x.Value)).ToArray());
                 }
                 request = (HttpWebRequest)WebRequest.Create(requestUri);
+                request.Proxy = Podio.API.Utils.PodioRestHelper.Proxy ?? null;
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.Accept = "application/json";
 
@@ -158,6 +161,7 @@ namespace Podio.API.Utils
             else
             {
                 request = (HttpWebRequest)WebRequest.Create(requestUri);
+                request.Proxy = Podio.API.Utils.PodioRestHelper.Proxy ?? null;
 
                 request.Method = "POST";
 
